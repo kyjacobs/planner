@@ -1,0 +1,27 @@
+{
+  "name": "planner",
+  "version": "1.0.0",
+  "description": "A web-app for planning.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyjacobs/planner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kyjacobs/planner/issues"
+  },
+  "homepage": "https://github.com/kyjacobs/planner#readme",
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "style-loader": "^3.3.2",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.1.1"
+  }
+}
