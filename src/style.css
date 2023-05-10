@@ -1,3 +1,130 @@
-.hello {
-    color: red;
+body {
+    background-color: #fffff0;
+}
+
+span {
+    display: block;
+    letter-spacing: 1px;
+}
+
+hr {
+    align-self: center;
+}
+
+.dayofweek, .weeknumber, .month {
+    font-family: 'NotoSansJP-ExtraLight', sans-serif;
+}
+
+.dayofweek {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size:larger;
+}
+
+.date {
+    align-self: center;
+    padding: 1rem;
+    /* the below font size should be in a media query for mobile size */
+    font-size: 64px; 
+    font-family: 'NotoSansJP-Light', sans-serif;
+
+}
+
+.weeknumber {
+    font-size: smaller;
+}
+
+.date-container {
+    padding-left: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    gap: 0.25em;
+
+    border-left: 1px solid black;
+}
+
+.today {
+    height: 10vh;
+    display: flex;
+    margin: 1em;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+
+    border: 1px solid black;
+
+    height: 90vh;
+
+    margin: 1em;
+    padding: 1em;
+}
+
+.task {
+    width: auto;
+
+    background-color: black;
+    color:#fffff0;
+
+    border-radius: 3px;
+
+    padding: 0.25em;
+
+    font-family: 'NotoSansJP-Light', sans-serif;
+    word-wrap: break-word;
+}
+
+@font-face {
+    font-family: 'NotoSansJP-ExtraLight';
+    src: url(./NotoSansJP-ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: 'NotoSansJP-Light';
+    src: url(./NotoSansJP-Light.ttf);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .today {
+        height: 5vh;
+    }
+
+    .date {
+        font-size: 32px;
+    }
+
+    .dayofweek, .month {
+        font-size: 12px;
+    }
+
+    .weeknumber {
+        font-size: 10px;
+    }
+} 
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    
+} 
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
 }
