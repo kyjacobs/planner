@@ -1,5 +1,12 @@
 body {
+    margin: 0;
+    padding: 0;
     background-color: #fffff0;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 span {
@@ -18,20 +25,24 @@ hr {
 .dayofweek {
     text-transform: uppercase;
     font-weight: bold;
-    font-size:larger;
+    font-size: 16px;
 }
 
 .date {
     align-self: center;
-    padding: 1rem;
+    padding-right: 1rem;
     /* the below font size should be in a media query for mobile size */
-    font-size: 64px; 
+    font-size: 24px; 
     font-family: 'NotoSansJP-Light', sans-serif;
 
 }
 
+.month {
+    font-size: 14px;
+}
+
 .weeknumber {
-    font-size: smaller;
+    font-size: 12px;
 }
 
 .date-container {
@@ -41,15 +52,14 @@ hr {
     flex-direction: column;
     align-items: left;
     justify-content: center;
-    gap: 0.25em;
+    gap: 1px;
 
     border-left: 1px solid black;
 }
 
 .today {
-    height: 10vh;
     display: flex;
-    margin: 1em;
+    min-height: 70%;
 }
 
 #content {
@@ -60,11 +70,36 @@ hr {
 
     border: 1px solid black;
 
-    height: 90vh;
+    height: 77.5%;
 
-    margin: 1em;
+    margin: 0 1em 0 1em;
     padding: 1em;
 }
+
+#day-nav {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 1em 0 1em;
+    margin: 5px 0 5px 0;
+
+    height: 10%;
+}
+
+#day-wrapper {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    height: 10%;
+
+    padding: 0 1em 0 1em;
+    margin: 5px 0 5px 0;
+}
+
 
 .task {
     width: auto;
@@ -90,10 +125,34 @@ hr {
     src: url(./NotoSansJP-Light.ttf);
 }
 
+/* Landscape mobile devices (phones, height < 500px) */
+@media only screen and (max-height: 500px) {
+    .date {
+        font-size: 16px;
+    }
+
+    .dayofweek, .task {
+        font-size: 12px;
+    }
+
+    .month {
+        font-size: 10px;
+    }
+
+    .weeknumber {
+        font-size: 8px;
+    }
+
+    .material-icons {
+        font-size: 20px;
+    }
+
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    .today {
-        height: 5vh;
+    /* .today {
+        height: 5%;
     }
 
     .date {
@@ -107,6 +166,10 @@ hr {
     .weeknumber {
         font-size: 10px;
     }
+
+    .material-icons {
+        font-size: 24px;
+    } */
 } 
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
