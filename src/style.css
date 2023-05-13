@@ -39,6 +39,7 @@ hr {
 
 .month {
     font-size: 14px;
+    text-transform: capitalize;
 }
 
 .weeknumber {

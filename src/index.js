@@ -1,8 +1,12 @@
 import './normalize.css';
 import './style.css';
-import {clearDay} from './day'
+import {clearDay, buildDay} from './day'
 
-clearDay();
+(function () {
+    console.log("Beginning IFFE");
+    buildDay();
+    // clearDay();
+  })();
 
 
 
