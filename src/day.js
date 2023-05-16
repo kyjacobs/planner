@@ -1,17 +1,21 @@
+let dayTracker = {
+    currentSelectedDay: new Date()
+}
+
 const clearDay = () => {
     const body = document.querySelector('body');
-    console.log(body);
     while (body.firstChild) {
         body.removeChild(body.firstChild);
     }
 }
 
-const buildDay = () => {
+const buildDay = (d = dayTracker.currentSelectedDay) => {
 
     const body = document.querySelector('body');
 
     // Current date and days of week array
-    const d = new Date();
+    // const d = dayTracker.currentSelectedDay;
+    // d.setDate(d.getDate() + dayNum);
     const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const monthsOfYear = ['january', 'feburary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
     // Roundabout way of calculating the current week of the year
@@ -72,18 +76,40 @@ const buildDay = () => {
     const dayNav = document.createElement('div');
     dayNav.setAttribute('id', 'day-nav');
 
-    const previousDayButton = document.createElement('i');
-    previousDayButton.classList.add('material-icons');
-    previousDayButton.textContent = 'arrow_back';
+    const previousDayIcon = document.createElement('i');
+    previousDayIcon.classList.add('material-icons');
+    previousDayIcon.textContent = 'arrow_back';
 
-    const nextDayButton = document.createElement('i');
-    nextDayButton.classList.add('material-icons');
-    nextDayButton.textContent = 'arrow_forward';
+    const previousDayButton = document.createElement('button');
+    previousDayButton.setAttribute('id', previousDayButton);
+    previousDayButton.addEventListener('click', previousDay);
+
+    const nextDayIcon = document.createElement('i');
+    nextDayIcon.classList.add('material-icons');
+    nextDayIcon.textContent = 'arrow_forward';
+
+    const nextDayButton = document.createElement('button');
+    nextDayButton.setAttribute('id', nextDayButton);
+    nextDayButton.addEventListener('click', nextDay);
 
     // Combining day-nav elements
+    previousDayButton.append(previousDayIcon);
+    nextDayButton.append(nextDayIcon);
     dayNav.append(previousDayButton, nextDayButton);
     body.append(dayNav);
 
 }
 
-export {clearDay, buildDay}
+const nextDay = () => {
+    clearDay();
+    dayTracker.currentSelectedDay.setDate(dayTracker.currentSelectedDay.getDate() + 1);
+    buildDay();
+}
+
+const previousDay = () => {
+    clearDay();
+    dayTracker.currentSelectedDay.setDate(dayTracker.currentSelectedDay.getDate() - 1);
+    buildDay();
+}
+
+export {buildDay}

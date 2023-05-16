@@ -18,6 +18,11 @@ hr {
     align-self: center;
 }
 
+button {
+    border: none;
+    background-color: #fffff0;
+}
+
 .dayofweek, .weeknumber, .month {
     font-family: 'NotoSansJP-ExtraLight', sans-serif;
 }
