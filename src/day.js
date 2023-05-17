@@ -1,3 +1,5 @@
+import { createInputArea } from "./entries";
+
 let dayTracker = {
     currentSelectedDay: new Date()
 }
@@ -14,15 +16,13 @@ const buildDay = (d = dayTracker.currentSelectedDay) => {
     const body = document.querySelector('body');
 
     // Current date and days of week array
-    // const d = dayTracker.currentSelectedDay;
-    // d.setDate(d.getDate() + dayNum);
     const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const monthsOfYear = ['january', 'feburary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+    
     // Roundabout way of calculating the current week of the year
     const year = new Date(d.getFullYear(), 0, 1);
     const days = Math.floor((d - year) / (24 * 60 * 60 * 1000));
     const week = Math.ceil((d.getDay() + 1 + days) / 7);
-
 
     // Building header components
     const dayWrapper = document.createElement('div');
@@ -64,11 +64,17 @@ const buildDay = (d = dayTracker.currentSelectedDay) => {
     const content = document.createElement('div');
     content.setAttribute('id', 'content');
 
-    const addContentButton = document.createElement('i');
-    addContentButton.classList.add('material-icons');
-    addContentButton.textContent = 'add';
+    const addContentButton = document.createElement('button');
+    addContentButton.setAttribute('id', 'addContentButton');
+    addContentButton.addEventListener('click', createInputArea);
+    
+
+    const addContentIcon = document.createElement('i');
+    addContentIcon.classList.add('material-icons');
+    addContentIcon.textContent = 'add';
 
     // Combining content area
+    addContentButton.append(addContentIcon);
     content.append(addContentButton);
     body.append(content);
 

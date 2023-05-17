@@ -23,6 +23,28 @@ button {
     background-color: #fffff0;
 }
 
+input {
+    font-family: 'NotoSansJP-Light', sans-serif;
+
+    border: 1px solid black;
+    background-color: #fffff0;
+    padding: 5px;
+    word-wrap: break-word;
+}
+
+#input-container {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 5px;
+}
+
+.btn-container {
+    align-self: flex-end;
+}
+
 .dayofweek, .weeknumber, .month {
     font-family: 'NotoSansJP-ExtraLight', sans-serif;
 }
@@ -71,7 +93,7 @@ button {
 #content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.5em;
 
     border: 1px solid black;
@@ -106,9 +128,15 @@ button {
     margin: 5px 0 5px 0;
 }
 
+#addContentButton {
+    align-self: flex-start;
+}
+
 
 .task {
     width: auto;
+
+    align-self: flex-start;
 
     background-color: black;
     color:#fffff0;
@@ -119,6 +147,10 @@ button {
 
     font-family: 'NotoSansJP-Light', sans-serif;
     word-wrap: break-word;
+}
+
+.hidden {
+    display: none;
 }
 
 @font-face {
