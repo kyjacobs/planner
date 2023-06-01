@@ -1,98 +1,83 @@
-// One thing I would like to do in the next day or two is use an object to cache the DOM elements
-// needed to reduce the redundancy of querySelector usage across the below functions
+import { createInputArea, toggleElementVisibility, createEntry } from "./components";
+import { dayTracker } from "./day";
+export {addInputArea, getUserInput, removeInputContainer, deleteEntry, editEntry, getEntries, appendEntry, createEntry};
 
-const createInputArea = () => {
-    
-    // Getting parent of input (content), and content's last child (addContentButton)
+
+// _myEntries is an object that uses the date as a key to all the entries for that date
+let _myEntries = {};
+
+const addInputArea = () => {
+
+    const input = createInputArea();
     const content = document.querySelector('#content');
-    const contentButton = document.querySelector('#addContentButton');
+    const contentBtn = document.querySelector('#add-content-btn');
 
-    // Creating an area for input, which includes a container, an input area, and a button with icon
-    const inputContainer = document.createElement('div');
-    inputContainer.setAttribute('id', 'input-container');
-
-    const input = document.createElement('input');
-    input.setAttribute('id', 'user-input');
-
-    const inputSubmitButton = document.createElement('button');
-    inputSubmitButton.setAttribute('id', 'input-submit-btn');
-
-    const inputSubmitIcon = document.createElement('icon');
-    inputSubmitIcon.classList.add('material-icons');
-    inputSubmitIcon.textContent = 'check_circle';
-    inputSubmitIcon.style.color = '#4caf50';
-
-    const inputCancelButton = document.createElement('button');
-    inputCancelButton.setAttribute('id', 'input-cancel-btn');
-
-    const inputCancelIcon = document.createElement('icon');
-    inputCancelIcon.classList.add('material-icons');
-    inputCancelIcon.textContent = 'cancel'
-    inputCancelIcon.style.color = '#f44336';
-
-    const btnContainer = document.createElement('div');
-    btnContainer.classList.add('btn-container');
-
-
-    // Constructing components
-    inputSubmitButton.append(inputSubmitIcon);
-    inputCancelButton.append(inputCancelIcon);
-    btnContainer.append(inputSubmitButton, inputCancelButton)
-    inputContainer.append(input, btnContainer);
-
-    // ADD EVENT LISTENERS HERE
-    inputSubmitButton.addEventListener('click', getUserInput);
-    inputCancelButton.addEventListener('click', removeInputContainer);
-
-    // Appending components and hiding button until input submission;
-    content.insertBefore(inputContainer, contentButton);
-    toggleElementVisibility('#addContentButton');
-}   
-
-const toggleElementVisibility = (element) => {
-    const ele = document.querySelector(`${element}`);
-
-    if (ele.classList.contains('hidden')) {
-        ele.classList.remove('hidden');
-    }
-    else {
-        ele.classList.add('hidden');
-    }
+    content.insertBefore(input, contentBtn);
+    toggleElementVisibility(contentBtn);
 }
 
-const removeElement = (element) => {
-    const ele = document.querySelector(`${element}`);
-    ele.remove();
+const getUserInput = () => {
+
+    const input = document.querySelector('#user-input');
+    const inputVal = input.value;
+
+    const inputContainer = document.querySelector('#input-container');
+    inputContainer.remove();
+
+    toggleElementVisibility(document.querySelector('#add-content-btn'));
+
+    saveEntry(inputVal);
+    appendEntry(createEntry(inputVal));
+}
+
+const saveEntry = (val) => {
+    if(!_myEntries[dayTracker.currentSelectedDay.toDateString()]) {
+        _myEntries[dayTracker.currentSelectedDay.toDateString()] = [val];
+    }
+    else {
+        _myEntries[dayTracker.currentSelectedDay.toDateString()].push(val);
+    }
 }
 
 const removeInputContainer = () => {
     const inputContainer = document.querySelector('#input-container');
     inputContainer.remove();
-    toggleElementVisibility('#addContentButton');
-}
-
-const getUserInput = () => {
-    const input = document.querySelector('#user-input');
-    const inputVal = input.value;
-    //console.log(inputVal);
-    removeElement('#input-container');
-    toggleElementVisibility('#addContentButton');
-    createEntry(inputVal);
-}
-
-const createEntry = (val) => {
-    const entry = document.createElement('span');
-    entry.classList.add('task');
-    entry.textContent = val;
-
-    appendEntry(entry);
+    toggleElementVisibility(document.querySelector('#add-content-btn'));
 }
 
 const appendEntry = (entry) => {
-    const content = document.querySelector('#content');
-    const addContentButton = document.querySelector('#addContentButton');
 
-    content.insertBefore(entry, addContentButton);
+    const content = document.querySelector('#content');
+    const contentBtn = document.querySelector('#add-content-btn');
+
+    content.insertBefore(entry, contentBtn);
 }
 
-export {createInputArea};
+
+// Need to split into two functions. One removes from _myEntriesObject, the other removes from dom
+// Or could use a different event listener to handle both of the above
+const deleteEntry = (event) => {
+
+    const seekText = event.currentTarget.parentNode.parentNode.firstChild.textContent;
+    const index = _myEntries[dayTracker.currentSelectedDay.toDateString()].indexOf(seekText);
+
+    if(index > -1) {
+        _myEntries[dayTracker.currentSelectedDay.toDateString()].splice(index, 1); 
+    }
+
+    event.currentTarget.parentNode.parentNode.remove();
+}
+
+// Works for replacing entry with new input area, but need to change the submit function so
+// that position is remembered upon submission. Currently it appends to the bottom of content area.
+// Also need to edit existing entry in _myEntries object.
+const editEntry = (event) => {
+
+    const prevText = event.currentTarget.parentNode.parentNode.firstChild.textContent;
+
+    event.currentTarget.parentNode.parentNode.replaceWith(createInputArea(prevText));
+}
+
+const getEntries = () => {
+    return _myEntries;
+}

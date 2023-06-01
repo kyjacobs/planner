@@ -1,121 +1,72 @@
-import { createInputArea } from "./entries";
+import { createDayHeader, createContentArea, createDayNavigation, createEntry} from "./components";
+import { getEntries, appendEntry} from "./entries";
+export {buildDay, previousDay, nextDay, dayTracker};
 
-let dayTracker = {
+const dayTracker = {
     currentSelectedDay: new Date()
 }
 
-const clearDay = () => {
-    const body = document.querySelector('body');
-    while (body.firstChild) {
-        body.removeChild(body.firstChild);
-    }
+const domCache = {
+    body: document.querySelector('body')
 }
 
-const buildDay = (d = dayTracker.currentSelectedDay) => {
+const buildDay = () => {
+    // Summoning components
+    const header = createDayHeader(dayTracker.currentSelectedDay);
+    const content = createContentArea();
+    const dayNav = createDayNavigation();
 
-    const body = document.querySelector('body');
+    // Caching components which won't change
+    domCache.content = content;
+    domCache.nav = dayNav;
 
-    // Current date and days of week array
-    const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const monthsOfYear = ['january', 'feburary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
-    
-    // Roundabout way of calculating the current week of the year
-    const year = new Date(d.getFullYear(), 0, 1);
-    const days = Math.floor((d - year) / (24 * 60 * 60 * 1000));
-    const week = Math.ceil((d.getDay() + 1 + days) / 7);
-
-    // Building header components
-    const dayWrapper = document.createElement('div');
-    dayWrapper.setAttribute('id', 'day-wrapper');
-
-    const today = document.createElement('div');
-    today.classList.add('today');
-
-    const todayDate = document.createElement('span');
-    todayDate.classList.add('date');
-    todayDate.textContent = `${d.getDate()}`
-
-    const dateContainer = document.createElement('div');
-    dateContainer.classList.add('date-container');
-
-    const currentDayOfWeek = document.createElement('span');
-    currentDayOfWeek.classList.add('dayofweek');
-    currentDayOfWeek.textContent = `${daysOfWeek[d.getDay()]}`
-
-    const month = document.createElement('span');
-    month.classList.add('month');
-    month.textContent = `${monthsOfYear[d.getMonth()]}`;
-
-    const weekNumber = document.createElement('span');
-    weekNumber.classList.add('weeknumber');
-    weekNumber.textContent = `W${week}`; 
-
-    const calendarIcon = document.createElement('i');
-    calendarIcon.classList.add('material-icons');
-    calendarIcon.textContent = 'calendar_month';
-
-    // Combining header Components 
-    dateContainer.append(currentDayOfWeek, month, weekNumber);
-    today.append(todayDate, dateContainer);
-    dayWrapper.append(today, calendarIcon);
-    body.append(dayWrapper);
-
-    // Building content area
-    const content = document.createElement('div');
-    content.setAttribute('id', 'content');
-
-    const addContentButton = document.createElement('button');
-    addContentButton.setAttribute('id', 'addContentButton');
-    addContentButton.addEventListener('click', createInputArea);
-    
-
-    const addContentIcon = document.createElement('i');
-    addContentIcon.classList.add('material-icons');
-    addContentIcon.textContent = 'add';
-
-    // Combining content area
-    addContentButton.append(addContentIcon);
-    content.append(addContentButton);
-    body.append(content);
-
-    // Building day to day navigation
-    const dayNav = document.createElement('div');
-    dayNav.setAttribute('id', 'day-nav');
-
-    const previousDayIcon = document.createElement('i');
-    previousDayIcon.classList.add('material-icons');
-    previousDayIcon.textContent = 'arrow_back';
-
-    const previousDayButton = document.createElement('button');
-    previousDayButton.setAttribute('id', previousDayButton);
-    previousDayButton.addEventListener('click', previousDay);
-
-    const nextDayIcon = document.createElement('i');
-    nextDayIcon.classList.add('material-icons');
-    nextDayIcon.textContent = 'arrow_forward';
-
-    const nextDayButton = document.createElement('button');
-    nextDayButton.setAttribute('id', nextDayButton);
-    nextDayButton.addEventListener('click', nextDay);
-
-    // Combining day-nav elements
-    previousDayButton.append(previousDayIcon);
-    nextDayButton.append(nextDayIcon);
-    dayNav.append(previousDayButton, nextDayButton);
-    body.append(dayNav);
-
+    // Appending components to body
+    domCache.body.append(header,content,dayNav);
 }
 
 const nextDay = () => {
-    clearDay();
     dayTracker.currentSelectedDay.setDate(dayTracker.currentSelectedDay.getDate() + 1);
-    buildDay();
+    updateDay();
 }
 
 const previousDay = () => {
-    clearDay();
     dayTracker.currentSelectedDay.setDate(dayTracker.currentSelectedDay.getDate() - 1);
-    buildDay();
+    updateDay();
 }
 
-export {buildDay}
+const updateDay = () => {
+    removeDayHeader();
+    const newDayHeader =  createDayHeader(dayTracker.currentSelectedDay);
+    domCache.body.insertBefore(newDayHeader, domCache.content);
+
+    clearDayContent();
+    loadDayContent();
+}
+
+const loadDayContent = () => {
+
+    const currentEntries = getEntries();
+    const entryArr = currentEntries[dayTracker.currentSelectedDay.toDateString()];
+
+    if(entryArr) {
+        for(let i = 0; i < entryArr.length; i++) {
+            appendEntry(createEntry(entryArr[i]));
+        }
+    }  
+}
+
+const clearDayContent = () => {
+    while(domCache.content.firstChild) {
+        if(domCache.content.firstChild == domCache.content.lastChild) {
+            break;
+        }
+        else {
+            domCache.content.firstChild.remove();
+        }
+    }
+}
+
+const removeDayHeader = () => {
+    const dayWrapper = document.querySelector('#day-wrapper');
+    dayWrapper.remove();
+}

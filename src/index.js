@@ -1,12 +1,30 @@
 import './normalize.css';
 import './style.css';
-import {buildDay} from './day'
+import { buildDay, nextDay, previousDay } from './day';
+import { addInputArea, getUserInput, removeInputContainer } from './entries';
 
-(function () {
-    
-    buildDay();
-  
+
+const planner = (function() { 
+
+    const init = () => {
+        buildDay();
+        bindEvents();
+    }
+
+    const bindEvents = () => {
+        const contentBtn = document.querySelector('#add-content-btn');
+        contentBtn.addEventListener('click', addInputArea);
+    }
+
+    return {init};
+
 })();
+
+planner.init();
+
+  
+  
+
 
 
 

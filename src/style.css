@@ -14,6 +14,10 @@ span {
     letter-spacing: 1px;
 }
 
+p {
+    margin: 0;
+}
+
 hr {
     align-self: center;
 }
@@ -42,7 +46,8 @@ input {
 }
 
 .btn-container {
-    align-self: flex-end;
+    display: flex;
+    gap: 5px;
 }
 
 .dayofweek, .weeknumber, .month {
@@ -128,25 +133,64 @@ input {
     margin: 5px 0 5px 0;
 }
 
-#addContentButton {
+#add-content-btn {
     align-self: flex-start;
+}
+
+.task-container {
+    display: flex;
+    gap: 10px;
+    align-self: flex-start;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
 }
 
 
 .task {
     width: auto;
-
-    align-self: flex-start;
-
-    background-color: black;
-    color:#fffff0;
+    height: auto;
 
     border-radius: 3px;
 
-    padding: 0.25em;
+    padding: 5px;
 
     font-family: 'NotoSansJP-Light', sans-serif;
     word-wrap: break-word;
+}
+
+.task-wrapper {
+    display: flex;
+    align-items: center;
+    
+    color: #fffff0;
+    background-color: black;
+
+    border-radius: 3px;
+
+    padding: 0 3px 0 3px;
+
+    min-height: 2em;
+    max-width: 80%;
+}
+
+/* .task-container:hover > .task {
+    transform: scale(1.01);
+} */
+
+.task-container:hover .edit-entry-btn,
+.task-container:hover .delete-entry-btn {
+    display: inline;
+}
+
+.task-container button {
+    flex-grow: 0;
+    padding: 0;
+}
+
+.edit-entry-btn:hover, .delete-entry-btn:hover {
+    transform: scale(1.01);
 }
 
 .hidden {
